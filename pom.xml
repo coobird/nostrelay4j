@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.coobird.nostr</groupId>
+    <artifactId>nostrelay4j</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>http://www.opensource.org/licenses/mit-license.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <modules>
+        <module>nostrelay4j-core</module>
+        <module>nostrelay4j-server</module>
+        <module>nostrelay4j-store-sqlite3</module>
+        <module>nostrelay4j-all</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <jetty.version>11.0.13</jetty.version>
+        <jackson.version>2.13.3</jackson.version>
+        <slf4j.version>2.0.6</slf4j.version>
+        <log4j2.version>2.19.0</log4j2.version>
+        <guava.version>31.1-jre</guava.version>
+        <junit.version>5.9.2</junit.version>
+        <mockito.version>5.1.1</mockito.version>
+        <testcontainers.version>1.17.6</testcontainers.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.coobird.nostr</groupId>
+                <artifactId>nostrelay4j-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.coobird.nostr</groupId>
+                <artifactId>nostrelay4j-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.coobird.nostr</groupId>
+                <artifactId>nostrelay4j-store-sqlite3</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <!-- Apache v2 License -->
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-jetty-api</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <!-- Apache v2 License -->
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-jetty-server</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <!-- Apache v2 License -->
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <!-- Apache v2 License -->
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <!-- MIT license -->
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <!-- Apache v2 License -->
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <!-- Apache v2 License -->
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j2-impl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+
+            <!-- Testing dependencies -->
+            <dependency>
+                <!-- EPL v2 License -->
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <!-- MIT License -->
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- MIT License -->
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

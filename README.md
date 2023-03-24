@@ -27,3 +27,6 @@ TODO.
 
 To build, run `mvn package`
 
+## TODO List
+
+* Integration tests with a client that calls the server.

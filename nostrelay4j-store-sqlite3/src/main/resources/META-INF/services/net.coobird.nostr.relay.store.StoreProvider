@@ -1,0 +1,1 @@
+net.coobird.nostr.relay.store.sqlite3.Sqlite3StoreProvider
