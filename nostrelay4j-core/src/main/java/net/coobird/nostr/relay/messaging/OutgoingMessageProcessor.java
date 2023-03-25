@@ -1,5 +1,6 @@
 package net.coobird.nostr.relay.messaging;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.coobird.nostr.relay.server.Lifecycle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +16,19 @@ public class OutgoingMessageProcessor implements Lifecycle {
 
     private final MessageQueue<OutgoingMessage> outgoingMessageQueue;
     private final Set<MessageConsumer<OutgoingMessage>> outgoingMessageConsumers;
-    private final ScheduledExecutorService es;
+    private final ScheduledExecutorService es = Executors.newSingleThreadScheduledExecutor(
+            new ThreadFactoryBuilder()
+                    .setNameFormat("out-message-scheduled-thread-%d")
+                    .setUncaughtExceptionHandler((t, e) -> {
+                        LOGGER.error("Uncaught exception t=<{}> e=<{}>", t, e);
+                    })
+                    .build()
+    );
 
     public OutgoingMessageProcessor(MessageQueue<OutgoingMessage> outgoingMessageQueue,
                                     Set<MessageConsumer<OutgoingMessage>> outgoingMessageConsumers) {
         this.outgoingMessageQueue = outgoingMessageQueue;
         this.outgoingMessageConsumers = outgoingMessageConsumers;
-        this.es = Executors.newScheduledThreadPool(1);
     }
 
     @Override

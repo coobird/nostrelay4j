@@ -24,11 +24,18 @@ public class IncomingMessageProcessor implements Lifecycle {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    private final ScheduledExecutorService es = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService es = Executors.newSingleThreadScheduledExecutor(
+            new ThreadFactoryBuilder()
+                    .setNameFormat("in-message-scheduled-thread-%d")
+                    .setUncaughtExceptionHandler((t, e) -> {
+                        LOGGER.error("Uncaught exception t=<{}> e=<{}>", t, e);
+                    })
+                    .build()
+    );
     private final ExecutorService processingPool = Executors.newFixedThreadPool(
             4,
             new ThreadFactoryBuilder()
-                    .setNameFormat("message-processor-%d")
+                    .setNameFormat("in-message-processor-%d")
                     .setUncaughtExceptionHandler((t, e) -> {
                         LOGGER.error("Uncaught exception t=<{}> e=<{}>", t, e);
                     })
