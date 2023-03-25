@@ -18,6 +18,10 @@
         </dependency>
         <dependency>
             <groupId>net.coobird.nostr</groupId>
+            <artifactId>nostrelay4j-store-simple</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.coobird.nostr</groupId>
             <artifactId>nostrelay4j-store-sqlite3</artifactId>
         </dependency>
     </dependencies>

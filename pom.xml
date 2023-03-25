@@ -20,6 +20,7 @@
     <modules>
         <module>nostrelay4j-core</module>
         <module>nostrelay4j-server</module>
+        <module>nostrelay4j-store-simple</module>
         <module>nostrelay4j-store-sqlite3</module>
         <module>nostrelay4j-all</module>
     </modules>
@@ -54,6 +55,11 @@
             <dependency>
                 <groupId>net.coobird.nostr</groupId>
                 <artifactId>nostrelay4j-store-sqlite3</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.coobird.nostr</groupId>
+                <artifactId>nostrelay4j-store-simple</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -43,7 +43,7 @@ public class StoreSelector {
             throw new RuntimeException(e);
         }
 
-        LOGGER.warn("Store not configured. Using a naive store.");
-        return new NaiveStore();
+        LOGGER.warn("Store not configured. Using a no-op store.");
+        return new NopStore();
     }
 }

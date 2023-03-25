@@ -1,9 +1,10 @@
-package net.coobird.nostr.relay.store;
+package net.coobird.nostr.relay.store.simple;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.coobird.nostr.relay.model.Event;
 import net.coobird.nostr.relay.model.Filters;
+import net.coobird.nostr.relay.store.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
