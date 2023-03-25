@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>nostrelay4j-store-simple</artifactId>
+    <artifactId>nostrelay4j-store-tests</artifactId>
 
     <dependencies>
         <dependency>
@@ -17,25 +17,10 @@
             <artifactId>nostrelay4j-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
         <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.coobird.nostr</groupId>
-            <artifactId>nostrelay4j-store-tests</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
