@@ -7,6 +7,7 @@ import net.coobird.nostr.relay.messaging.MessageProcessor;
 import net.coobird.nostr.relay.messaging.MessageProducer;
 import net.coobird.nostr.relay.messaging.MessageQueue;
 import net.coobird.nostr.relay.messaging.OutgoingMessage;
+import net.coobird.nostr.relay.messaging.OutgoingMessageProcessor;
 import net.coobird.nostr.relay.server.ApplicationContext;
 import net.coobird.nostr.relay.server.AdminServer;
 import net.coobird.nostr.relay.server.MainServer;
@@ -21,11 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -59,21 +57,7 @@ public class Main {
 
         MessageQueue<IncomingMessage> incomingMessageQueue = new MessageQueue<>();
         MessageQueue<OutgoingMessage> outgoingMessageQueue = new MessageQueue<>();
-
         Set<MessageConsumer<OutgoingMessage>> outgoingMessageConsumers = new HashSet<>();
-        var es = Executors.newScheduledThreadPool(1);
-        es.scheduleAtFixedRate(() -> {
-            while (!outgoingMessageQueue.isEmpty()) {
-                var message = outgoingMessageQueue.remove();
-                LOGGER.debug("Got message from outgoing queue: <{}>", message);
-                LOGGER.debug("outgoingMessageConsumers: <{}>", outgoingMessageConsumers);
-
-                for (var outgoingMessageConsumer : outgoingMessageConsumers) {
-                    LOGGER.debug("outgoingMessageConsumer: <{}>", outgoingMessageConsumer);
-                    outgoingMessageConsumer.receive(message);
-                }
-            }
-        }, 0, 10, TimeUnit.MILLISECONDS);
 
         LifecycleCallback lifecycleCallback = new LifecycleCallback() {
             @Override
@@ -94,16 +78,23 @@ public class Main {
             }
         };
 
+        ApplicationContext applicationContext = new ApplicationContext();
+
         MessageProcessor processor = new MessageProcessor(
                 incomingMessageQueue,
                 outgoingMessageQueue,
                 store,
                 subscriptionRegistry
         );
-
-        ApplicationContext applicationContext = new ApplicationContext();
         processor.start();
         applicationContext.add(processor);
+
+        OutgoingMessageProcessor outgoingMessageProcessor = new OutgoingMessageProcessor(
+                outgoingMessageQueue,
+                outgoingMessageConsumers
+        );
+        outgoingMessageProcessor.start();
+        applicationContext.add(outgoingMessageProcessor);
 
         final var subscriptionMonitor = new SubscriptionMonitor(subscriptionRegistry);
         subscriptionMonitor.start();
