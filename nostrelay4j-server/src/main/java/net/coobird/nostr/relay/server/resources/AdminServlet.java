@@ -22,6 +22,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if ("/shutdown".equals(req.getRequestURI())) {
+            // FIXME curl reports 'curl: (18) transfer closed with outstanding read data remaining'
             resp.getWriter().print("Shutting down relay...");
             resp.getWriter().flush();
             for (var application : applicationContext.getAll()) {
