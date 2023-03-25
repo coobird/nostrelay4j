@@ -3,7 +3,7 @@ package net.coobird.nostr.relay;
 import net.coobird.nostr.relay.config.ConfigurationManager;
 import net.coobird.nostr.relay.messaging.IncomingMessage;
 import net.coobird.nostr.relay.messaging.MessageConsumer;
-import net.coobird.nostr.relay.messaging.MessageProcessor;
+import net.coobird.nostr.relay.messaging.IncomingMessageProcessor;
 import net.coobird.nostr.relay.messaging.MessageProducer;
 import net.coobird.nostr.relay.messaging.MessageQueue;
 import net.coobird.nostr.relay.messaging.OutgoingMessage;
@@ -80,14 +80,14 @@ public class Main {
 
         ApplicationContext applicationContext = new ApplicationContext();
 
-        MessageProcessor processor = new MessageProcessor(
+        IncomingMessageProcessor incomingMessageProcessor = new IncomingMessageProcessor(
                 incomingMessageQueue,
                 outgoingMessageQueue,
                 store,
                 subscriptionRegistry
         );
-        processor.start();
-        applicationContext.add(processor);
+        incomingMessageProcessor.start();
+        applicationContext.add(incomingMessageProcessor);
 
         OutgoingMessageProcessor outgoingMessageProcessor = new OutgoingMessageProcessor(
                 outgoingMessageQueue,

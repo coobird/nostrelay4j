@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class MessageProcessor implements Lifecycle {
+public class IncomingMessageProcessor implements Lifecycle {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -40,10 +40,10 @@ public class MessageProcessor implements Lifecycle {
     private final Store store;
     private final SubscriptionRegistry subscriptionRegistry;
 
-    public MessageProcessor(MessageQueue<IncomingMessage> incomingMessageQueue,
-                            MessageQueue<OutgoingMessage> outgoingMessageQueue,
-                            Store store,
-                            SubscriptionRegistry subscriptionRegistry) {
+    public IncomingMessageProcessor(MessageQueue<IncomingMessage> incomingMessageQueue,
+                                    MessageQueue<OutgoingMessage> outgoingMessageQueue,
+                                    Store store,
+                                    SubscriptionRegistry subscriptionRegistry) {
 
         this.incomingMessageQueue = incomingMessageQueue;
         this.outgoingMessageQueue = outgoingMessageQueue;
