@@ -20,11 +20,11 @@ public class StoreSelector {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public static Store getStore() {
-        LOGGER.info("Store selector started.");
+        LOGGER.debug("Store selector started.");
         ServiceLoader<StoreProvider> serviceLoader = ServiceLoader.load(StoreProvider.class);
         Map<String, StoreProvider> storeProviderMap = serviceLoader.stream()
                 .collect(Collectors.toMap(p -> p.get().identifier(), ServiceLoader.Provider::get));
-        LOGGER.info("Known providers: <{}>", storeProviderMap);
+        LOGGER.debug("Known providers: <{}>", storeProviderMap);
 
         // Pick providers based on name in configuration.
         try (InputStream is = ConfigurationManager.getConfigurationAsStream()) {
@@ -34,7 +34,7 @@ public class StoreSelector {
                 var storeNode = configNode.get("store");
                 for (Map.Entry<String, StoreProvider> entry: storeProviderMap.entrySet()) {
                     if (storeNode.has(entry.getKey())) {
-                        LOGGER.info("Using store provider: <{}>", entry.getValue());
+                        LOGGER.debug("Using store provider: <{}>", entry.getValue());
                         return entry.getValue().create();
                     }
                 }

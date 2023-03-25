@@ -40,7 +40,7 @@ public class WebsocketHandler extends WebSocketAdapter implements MessageConsume
                             "[\"EVENT\",\"%s\",%s]\n",
                             subscriptionId, message.content()
                     );
-                    LOGGER.info("send event: <{}>", response);
+                    LOGGER.debug("send event: <{}>", response);
                     session.getRemote().sendString(response);
                 }
                 case NOTICE -> {
@@ -48,11 +48,11 @@ public class WebsocketHandler extends WebSocketAdapter implements MessageConsume
                             "[\"NOTICE\",\"Something went wrong with event id = %s: %s\"]",
                             subscriptionId, message.content()
                     );
-                    LOGGER.info("send notice: <{}>", response);
+                    LOGGER.debug("send notice: <{}>", response);
                     session.getRemote().sendString(response);
                 }
                 case CLOSE -> {
-                    LOGGER.info("receieved CLOSE for <{}>, subid=<{}>", message.owner(), message.subscriptionId());
+                    LOGGER.debug("receieved CLOSE for <{}>, subid=<{}>", message.owner(), message.subscriptionId());
                 }
                 default -> {
                     LOGGER.error("This shouldn't happen.");

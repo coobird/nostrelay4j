@@ -22,12 +22,12 @@ public class NaiveStore implements Store {
 
     @Override
     public void store(String rawEvent) {
-        LOGGER.info("Received store request.");
+        LOGGER.debug("Received store request.");
 
         try {
             var event = OBJECT_MAPPER.readValue(rawEvent, Event.class);
             events.add(event);
-            LOGGER.info("Added event: id=<{}>", event.id());
+            LOGGER.debug("Added event: id=<{}>", event.id());
 
         } catch (JsonProcessingException e) {
             LOGGER.error("Error serializing event.", e);

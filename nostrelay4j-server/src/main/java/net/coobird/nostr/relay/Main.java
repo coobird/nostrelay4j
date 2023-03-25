@@ -65,8 +65,8 @@ public class Main {
         es.scheduleAtFixedRate(() -> {
             while (!outgoingMessageQueue.isEmpty()) {
                 var message = outgoingMessageQueue.remove();
-                LOGGER.info("Got message from outgoing queue: <{}>", message);
-                LOGGER.info("outgoingMessageConsumers: <{}>", outgoingMessageConsumers);
+                LOGGER.debug("Got message from outgoing queue: <{}>", message);
+                LOGGER.debug("outgoingMessageConsumers: <{}>", outgoingMessageConsumers);
 
                 for (var outgoingMessageConsumer : outgoingMessageConsumers) {
                     LOGGER.debug("outgoingMessageConsumer: <{}>", outgoingMessageConsumer);
@@ -129,6 +129,7 @@ public class Main {
             Thread.currentThread().setName("shutdown-hook-thread");
             LOGGER.info("Shutdown hook called. Attempting graceful shutdown.");
             for (var application : applicationContext.getAll()) {
+                LOGGER.info("Attempt shutting down: <{}>", application);
                 try {
                     application.stop();
                 } catch (Exception e) {
