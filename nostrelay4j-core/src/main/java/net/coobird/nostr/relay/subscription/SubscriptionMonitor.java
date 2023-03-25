@@ -6,12 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.time.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class SubscriptionMonitor implements Lifecycle {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Duration MONITORING_PERIOD = Duration.ofSeconds(10);
+
     private final ScheduledExecutorService es;
     private final SubscriptionRegistry subscriptionManager;
 
@@ -31,7 +34,7 @@ public class SubscriptionMonitor implements Lifecycle {
                     subscriptionManager.getSessionCount(),
                     subscriptionManager.getSubscriptionCount()
             );
-        }, 0, 10, TimeUnit.SECONDS);
+        }, 0, MONITORING_PERIOD.getSeconds(), TimeUnit.SECONDS);
     }
 
     @Override
