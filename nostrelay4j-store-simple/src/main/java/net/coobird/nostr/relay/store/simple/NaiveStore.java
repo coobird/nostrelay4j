@@ -44,16 +44,17 @@ public class NaiveStore implements Store {
     public List<String> find(List<Filters> filters) {
         LOGGER.debug("Received find request for filters. filters=<{}>", filters);
         List<Event> matchedEvents = new ArrayList<>();
+        eventIteration:
         for (var event : events) {
             for (var filter : filters) {
                 if (!filter.evaluate(event)) {
-                    break;
+                    continue eventIteration;
                 }
             }
             matchedEvents.add(event);
             LOGGER.debug("Found matched event. event=<{}> filters=<{}>", event, filters);
         }
-        Collections.sort(matchedEvents, Comparator.comparing(Event::createdAt));
+        matchedEvents.sort(Comparator.comparing(Event::createdAt));
 
         var sortedMatchedEvents = matchedEvents.stream()
                 .map(event -> {
