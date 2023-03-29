@@ -16,6 +16,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * A {@link HashSet} backed store.
+ * Events which are retrived from the store are returned sorted by {@code createdAt} in ascending order.
+ */
 public class NaiveStore implements Store {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
