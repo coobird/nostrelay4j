@@ -16,14 +16,17 @@ public record Filters(
         Long limit
 ) {
     public boolean evaluate(Event event) {
+        boolean hasMatch = false;
+
         ids:
-        if (ids != null) {
+        if (ids != null && !ids.isEmpty()) {
             var eventId = event.id();
             for (var id : ids) {
                 if (id.isEmpty()) {
                     continue;
                 }
                 if (eventId.startsWith(id)) {
+                    hasMatch = true;
                     break ids;
                 }
             }
@@ -31,13 +34,14 @@ public record Filters(
         }
 
         authors:
-        if (authors != null) {
+        if (authors != null && !authors().isEmpty()) {
             var eventAuthor = event.pubkey();
             for (var author : authors) {
                 if (author.isEmpty()) {
                     continue;
                 }
                 if (eventAuthor.startsWith(author)) {
+                    hasMatch = true;
                     break authors;
                 }
             }
@@ -45,10 +49,11 @@ public record Filters(
         }
 
         kinds:
-        if (kinds != null) {
+        if (kinds != null && !kinds.isEmpty()) {
             var eventKind = event.kind();
             for (var kind : kinds) {
                 if (eventKind == kind) {
+                    hasMatch = true;
                     break kinds;
                 }
             }
@@ -56,7 +61,7 @@ public record Filters(
         }
 
         etags:
-        if (hashE != null) {
+        if (hashE != null && !hashE.isEmpty()) {
             var eventIds = event.tags().stream()
                     .filter(tag -> tag.getType().equals("e"))
                     .map(tag -> ((EventTag)tag).eventId())
@@ -68,6 +73,7 @@ public record Filters(
 
             for (var e : hashE) {
                 if (eventIds.contains(e)) {
+                    hasMatch = true;
                     break etags;
                 }
             }
@@ -75,7 +81,7 @@ public record Filters(
         }
 
         ptags:
-        if (hashP != null) {
+        if (hashP != null && !hashP.isEmpty()) {
             var pubkeys = event.tags().stream()
                     .filter(tag -> tag.getType().equals("p"))
                     .map(tag -> ((EventTag)tag).eventId())
@@ -87,6 +93,7 @@ public record Filters(
 
             for (var p : hashP) {
                 if (pubkeys.contains(p)) {
+                    hasMatch = true;
                     break ptags;
                 }
             }
@@ -97,14 +104,16 @@ public record Filters(
             if (event.createdAt() > since) {
                 return false;
             }
+            hasMatch = true;
         }
 
         if (until != null) {
             if (event.createdAt() < until) {
                 return false;
             }
+            hasMatch = true;
         }
 
-        return true;
+        return hasMatch;
     }
 }
