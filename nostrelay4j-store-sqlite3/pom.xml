@@ -38,5 +38,10 @@
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.coobird.nostr</groupId>
+            <artifactId>nostrelay4j-store-tests</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

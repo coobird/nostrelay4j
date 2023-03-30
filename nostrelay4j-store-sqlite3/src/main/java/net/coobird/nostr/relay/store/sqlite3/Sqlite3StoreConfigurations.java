@@ -12,6 +12,15 @@ public class Sqlite3StoreConfigurations {
     @JsonProperty("db_path")
     private String dbPath = "nostrelay4j.sqlite3";
 
+    public Sqlite3StoreConfigurations() {
+        // Don't do anything -- basically default value for db path stays.
+        // This will be necessary when deserializing.
+    }
+
+    public Sqlite3StoreConfigurations(String dbPath) {
+        this.dbPath = dbPath;
+    }
+
     public static Sqlite3StoreConfigurations getConfiguration(InputStream is) {
         var objectMapper = new ObjectMapper();
         try {

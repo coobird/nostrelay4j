@@ -3,7 +3,6 @@ package net.coobird.nostr.relay.store.sqlite3;
 import net.coobird.nostr.relay.config.ConfigurationManager;
 import net.coobird.nostr.relay.store.StoreProvider;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 public class Sqlite3StoreProvider implements StoreProvider {
@@ -22,7 +21,7 @@ public class Sqlite3StoreProvider implements StoreProvider {
             Sqlite3StoreConfigurations configuration = Sqlite3StoreConfigurations.getConfiguration(is);
             return new Sqlite3Store(configuration);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
