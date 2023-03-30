@@ -26,18 +26,10 @@ public class NaiveStore implements Store {
     private final Set<Event> events = new HashSet<>();
 
     @Override
-    public void store(String rawEvent) {
+    public void store(Event event, String rawEvent) {
         LOGGER.debug("Received store request.");
-
-        try {
-            var event = OBJECT_MAPPER.readValue(rawEvent, Event.class);
-            events.add(event);
-            LOGGER.debug("Added event: id=<{}>", event.id());
-
-        } catch (JsonProcessingException e) {
-            LOGGER.error("Error serializing event.", e);
-            throw new RuntimeException("Error serializing event.", e);
-        }
+        events.add(event);
+        LOGGER.debug("Added event: id=<{}>", event.id());
     }
 
     @Override

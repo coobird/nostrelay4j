@@ -76,7 +76,7 @@ public class IncomingMessageProcessor implements Lifecycle {
                     var eventNode = node.get(1);
                     var event = OBJECT_MAPPER.treeToValue(eventNode, Event.class);
                     String eventString = eventNode.toString();
-                    store.store(eventString);
+                    store.store(event, eventString);
 
                     // TODO fan out event to those who are subscribed?
                     var subscriptions = subscriptionRegistry.getAllSubscriptions();

@@ -2,6 +2,7 @@ package net.coobird.nostr.relay.store;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.coobird.nostr.relay.model.Event;
 import net.coobird.nostr.relay.model.Filters;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ public abstract class StoreTestBase<T extends Store> {
         String inputEvent = """
                 {"id":"0000","pubkey":"1111","created_at":1234567890,"kind":1,"tags":[],"content":"hello world","sig":"2222"}
                 """.strip();
-        store.store(inputEvent);
+        store.store(OBJECT_MAPPER.readValue(inputEvent, Event.class), inputEvent);
 
         List<String> returnedEvents = store.find(Collections.singletonList(
                 new Filters(
@@ -67,13 +68,13 @@ public abstract class StoreTestBase<T extends Store> {
     }
 
     @Test
-    public void findWithFilterThatDoesntMatchReturnsNothing() {
+    public void findWithFilterThatDoesntMatchReturnsNothing() throws Exception {
         Store store = getStore();
 
         String inputEvent = """
                 {"id":"0000","pubkey":"1111","created_at":1234567890,"kind":1,"tags":[],"content":"hello world","sig":"2222"}
                 """.strip();
-        store.store(inputEvent);
+        store.store(OBJECT_MAPPER.readValue(inputEvent, Event.class), inputEvent);
 
         List<String> returnedEvents = store.find(Collections.singletonList(
                 new Filters(

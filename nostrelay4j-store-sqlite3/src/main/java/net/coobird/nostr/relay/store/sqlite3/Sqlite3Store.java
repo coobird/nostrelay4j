@@ -1,5 +1,6 @@
 package net.coobird.nostr.relay.store.sqlite3;
 
+import net.coobird.nostr.relay.model.Event;
 import net.coobird.nostr.relay.model.Filters;
 import net.coobird.nostr.relay.store.Store;
 import org.slf4j.Logger;
@@ -19,9 +20,9 @@ public class Sqlite3Store implements Store {
         LOGGER.info("Using DB path: <{}>", configuration.getDbPath());
     }
 
-    @Override
-    public void store(String rawEvent) {
 
+    @Override
+    public void store(Event event, String rawEvent) {
     }
 
     @Override
